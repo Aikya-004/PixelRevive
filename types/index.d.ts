@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-unused-vars */
+ 
 
 // ====== USER PARAMS
 declare type CreateUserParams = {
