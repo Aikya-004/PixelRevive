@@ -156,8 +156,7 @@ const onTransformHandler = async () => {
   setIsTransforming(true)
 
   
-  const cleanedTransformation = { ...newTransformation }
-
+  const cleanedTransformation: { [key: string]: any } = { ...newTransformation };
  
   const imageFormat = image?.format || image?.secureURL?.split('.').pop()
 

@@ -1,15 +1,25 @@
-
+export const dynamic = 'force-dynamic';
 import { Collection } from "@/components/shared/Collection"
 import { navLinks } from "@/constants"
 import { getAllImages } from "@/lib/actions/image.actions"
 import Image from "next/image"
 import Link from "next/link"
 
-const Home = async ({ searchParams }: SearchParamProps) => {
-  const page = Number(searchParams?.page) || 1;
-  const searchQuery = (searchParams?.query as string) || '';
+type SearchParamProps = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
-  const images = await getAllImages({ page, searchQuery})
+export default async function Home(props: SearchParamProps) {
+  const resolvedParams = await props.searchParams;
+
+  // Type-safe extraction
+  const rawPage = resolvedParams?.page;
+  const rawQuery = resolvedParams?.query;
+
+  const page = Number(Array.isArray(rawPage) ? rawPage[0] : rawPage) || 1;
+  const searchQuery = Array.isArray(rawQuery) ? rawQuery[0] : rawQuery || '';
+
+  const images = await getAllImages({ page, searchQuery });
 
   return (
     <>
@@ -45,4 +55,4 @@ const Home = async ({ searchParams }: SearchParamProps) => {
   )
 }
 
-export default Home
+// export default Home
