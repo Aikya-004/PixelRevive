@@ -1,25 +1,19 @@
-export const dynamic = 'force-dynamic';
-import { Collection } from "@/components/shared/Collection"
-import { navLinks } from "@/constants"
-import { getAllImages } from "@/lib/actions/image.actions"
-import Image from "next/image"
-import Link from "next/link"
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Collection } from "@/components/shared/Collection";
+import { navLinks } from "@/constants";
+// import { getAllImages } from "@/lib/actions/image.actions";
+import Image from "next/image";
+import Link from "next/link";
 
-type SearchParamProps = {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+type HomePageProps = {
+  searchParams?: { [key: string]: string | string[] | undefined };
 };
 
-export default async function Home(props: SearchParamProps) {
-  const resolvedParams = await props.searchParams;
+const Home = async ({ searchParams = {} }: HomePageProps) => {
+  // const page = Number(searchParams.page) || 1;
+  // const searchQuery = (searchParams.query as string) || '';
 
-  // Type-safe extraction
-  const rawPage = resolvedParams?.page;
-  const rawQuery = resolvedParams?.query;
-
-  const page = Number(Array.isArray(rawPage) ? rawPage[0] : rawPage) || 1;
-  const searchQuery = Array.isArray(rawQuery) ? rawQuery[0] : rawQuery || '';
-
-  const images = await getAllImages({ page, searchQuery });
+  // const images = await getAllImages({ page, searchQuery });
 
   return (
     <>
@@ -44,15 +38,15 @@ export default async function Home(props: SearchParamProps) {
       </section>
 
       <section className="sm:mt-12">
-        <Collection 
+        {/* <Collection
           hasSearch={true}
           images={images?.data}
           totalPages={images?.totalPage}
           page={page}
-        />
+        /> */}
       </section>
     </>
-  )
-}
+  );
+};
 
-// export default Home
+export default Home;

@@ -114,10 +114,17 @@ declare type RemoveUrlQueryParams = {
   keysToRemove: string[];
 };
 
-declare type SearchParamProps = {
+// Correct type for a server component in Next.js 15
+// type PageProps = {
+//   params: { id: string; type: TransformationTypeKey };
+//   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+// };
+
+declare type SearchParamsProps = {
   params: { id: string; type: TransformationTypeKey };
   searchParams: { [key: string]: string | string[] | undefined };
 };
+
 
 declare type TransformationFormProps = {
   action: "Add" | "Update";

@@ -10,7 +10,7 @@ import { getImageSize } from "@/lib/utils";
 import { DeleteConfirmation } from "@/components/shared/DeleteConfirmation";
 // import { redirect } from "next/navigation";
 
-const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
+const ImageDetails = async ({ params: { id } }: SearchParamsProps) => {
     
   const { userId } = await auth();
   // if(!userId) redirect('/sign-in')
