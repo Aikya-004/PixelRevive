@@ -1,19 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Collection } from "@/components/shared/Collection";
-import { navLinks } from "@/constants";
-// import { getAllImages } from "@/lib/actions/image.actions";
-import Image from "next/image";
-import Link from "next/link";
+import { Collection } from "@/components/shared/Collection"
+import { navLinks } from "@/constants"
+import { getAllImages } from "@/lib/actions/image.actions"
+import Image from "next/image"
+import Link from "next/link"
 
-type HomePageProps = {
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
+const Home = async ({ searchParams }: SearchParamsProps) => {
+  const page = Number(searchParams?.page) || 1;
+  const searchQuery = (searchParams?.query as string) || '';
 
-const Home = async ({ searchParams = {} }: HomePageProps) => {
-  // const page = Number(searchParams.page) || 1;
-  // const searchQuery = (searchParams.query as string) || '';
-
-  // const images = await getAllImages({ page, searchQuery });
+  const images = await getAllImages({ page, searchQuery})
 
   return (
     <>
@@ -38,15 +33,15 @@ const Home = async ({ searchParams = {} }: HomePageProps) => {
       </section>
 
       <section className="sm:mt-12">
-        {/* <Collection
+        <Collection 
           hasSearch={true}
           images={images?.data}
           totalPages={images?.totalPage}
           page={page}
-        /> */}
+        />
       </section>
     </>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
