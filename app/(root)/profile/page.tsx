@@ -7,14 +7,19 @@ import Header from "@/components/shared/Header";
 import { getUserImages } from "@/lib/actions/image.actions";
 import { getUserById } from "@/lib/actions/user.actions";
 
-const Profile = async ({ searchParams }: SearchParamsProps) => {
-  const page = Number(searchParams?.page) || 1;
-  const { userId } = await auth();
+const Profile = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) => {
+  const { page = "1" } = await searchParams;
+  const pageNumber = Number(page); // ✅ Convert to number
 
+  const { userId } = await auth();
   if (!userId) redirect("/sign-in");
 
   const user = await getUserById(userId);
-  const images = await getUserImages({ page, userId: user._id });
+  const images = await getUserImages({ page: pageNumber, userId: user._id });
 
   return (
     <>
@@ -54,7 +59,7 @@ const Profile = async ({ searchParams }: SearchParamsProps) => {
         <Collection
           images={images?.data}
           totalPages={images?.totalPages}
-          page={page}
+          page={pageNumber} // ✅ Correct type
         />
       </section>
     </>

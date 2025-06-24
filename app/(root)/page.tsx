@@ -4,11 +4,16 @@ import { getAllImages } from "@/lib/actions/image.actions"
 import Image from "next/image"
 import Link from "next/link"
 
-const Home = async ({ searchParams }: SearchParamsProps) => {
-  const page = Number(searchParams?.page) || 1;
-  const searchQuery = (searchParams?.query as string) || '';
+const Home = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string; query?: string }>;
+}) => {
+  const { page = "1", query = "" } = await searchParams;
 
-  const images = await getAllImages({ page, searchQuery})
+  const pageNumber = Number(page); // ✅ convert to number
+
+  const images = await getAllImages({ page: pageNumber, searchQuery: query });
 
   return (
     <>
@@ -33,15 +38,15 @@ const Home = async ({ searchParams }: SearchParamsProps) => {
       </section>
 
       <section className="sm:mt-12">
-        <Collection 
+        <Collection
           hasSearch={true}
           images={images?.data}
           totalPages={images?.totalPage}
-          page={page}
+          page={pageNumber} // ✅ now correct type
         />
       </section>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

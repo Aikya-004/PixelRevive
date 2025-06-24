@@ -10,11 +10,16 @@ import { getImageSize } from "@/lib/utils";
 import { DeleteConfirmation } from "@/components/shared/DeleteConfirmation";
 // import { redirect } from "next/navigation";
 
-const ImageDetails = async ({ params: { id } }: SearchParamsProps) => {
-    
+const ImageDetails = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params; // ✅ Fix: await params
+
   const { userId } = await auth();
-  // if(!userId) redirect('/sign-in')
- 
+  // if (!userId) redirect("/sign-in");
+
   const image = await getImageById(id);
 
   return (
@@ -24,17 +29,15 @@ const ImageDetails = async ({ params: { id } }: SearchParamsProps) => {
       <section className="mt-5 flex flex-wrap gap-4">
         <div className="p-14-medium md:p-16-medium flex gap-2">
           <p className="text-dark-600">Transformation:</p>
-          <p className=" capitalize text-purple-400">
-            {image.transformationType}
-          </p>
+          <p className="capitalize text-purple-400">{image.transformationType}</p>
         </div>
 
         {image.prompt && (
           <>
             <p className="hidden text-dark-400/50 md:block">&#x25CF;</p>
-            <div className="p-14-medium md:p-16-medium flex gap-2 ">
+            <div className="p-14-medium md:p-16-medium flex gap-2">
               <p className="text-dark-600">Prompt:</p>
-              <p className=" capitalize text-purple-400">{image.prompt}</p>
+              <p className="capitalize text-purple-400">{image.prompt}</p>
             </div>
           </>
         )}
@@ -44,7 +47,7 @@ const ImageDetails = async ({ params: { id } }: SearchParamsProps) => {
             <p className="hidden text-dark-400/50 md:block">&#x25CF;</p>
             <div className="p-14-medium md:p-16-medium flex gap-2">
               <p className="text-dark-600">Color:</p>
-              <p className=" capitalize text-purple-400">{image.color}</p>
+              <p className="capitalize text-purple-400">{image.color}</p>
             </div>
           </>
         )}
@@ -54,7 +57,7 @@ const ImageDetails = async ({ params: { id } }: SearchParamsProps) => {
             <p className="hidden text-dark-400/50 md:block">&#x25CF;</p>
             <div className="p-14-medium md:p-16-medium flex gap-2">
               <p className="text-dark-600">Aspect Ratio:</p>
-              <p className=" capitalize text-purple-400">{image.aspectRatio}</p>
+              <p className="capitalize text-purple-400">{image.aspectRatio}</p>
             </div>
           </>
         )}
@@ -62,10 +65,9 @@ const ImageDetails = async ({ params: { id } }: SearchParamsProps) => {
 
       <section className="mt-10 border-t border-dark-400/15">
         <div className="transformation-grid">
-          {/* MEDIA UPLOADER */}
+          {/* Original Image */}
           <div className="flex flex-col gap-4">
             <h3 className="h3-bold text-dark-600">Original</h3>
-
             <Image
               width={getImageSize(image.transformationType, image, "width")}
               height={getImageSize(image.transformationType, image, "height")}
@@ -75,7 +77,7 @@ const ImageDetails = async ({ params: { id } }: SearchParamsProps) => {
             />
           </div>
 
-          {/* TRANSFORMED IMAGE */}
+          {/* Transformed Image */}
           <TransformedImage
             image={image}
             type={image.transformationType}
